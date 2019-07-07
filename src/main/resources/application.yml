@@ -1,0 +1,19 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/view/stu
+      suffix: .jsp
+  datasource:
+    druid:
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/by1902
+      initial-size: 5
+
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.by.model
