@@ -1,11 +1,13 @@
 package com.by.service.Impl;
 
+import com.by.mapper.PermissionMapper;
 import com.by.mapper.RoleMapper;
 import com.by.model.*;
 import com.by.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +18,8 @@ import java.util.Map;
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private PermissionMapper permissionMapper;
 
     @Override
     public List<Role> query1() {
@@ -60,6 +64,21 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delete2(Integer roleId) {
         roleMapper.delete2(roleId);
+    }
+
+    @Override
+    public Map<String, Object> roleper(Integer roleId) {
+        Map<String, Object> map = new HashMap<>();
+        //查询全部的 roles
+        List<Permission> permissions =permissionMapper.findAll1();
+        //通过id查询role对象
+
+        List<Integer> permissionIds = roleMapper.findRoleIdsByUserId(roleId);
+
+        map.put("permissions",permissions);
+        map.put("permissionIds",permissionIds);
+        return map;
+
     }
 
 

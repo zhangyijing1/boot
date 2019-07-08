@@ -11,6 +11,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,10 +126,10 @@ public class UserController {
     }
     @ResponseBody
     @GetMapping("userRol")
-    public Set<String> userRol(@RequestParam("userId") Integer userId) {
-            Set<String> roles=userService.userRol(userId);
-          return roles;
-
+    public  Map<String, Object> userRol(@RequestParam("userId") Integer userId) {
+        Map<String, Object> map = new HashMap<>();
+        map=userService.userRol(userId);
+        return map;
 
     }
     @RequestMapping("list1")
@@ -156,6 +157,7 @@ public class UserController {
     }
 
     @ResponseBody
+    @RequiresPermissions({"/user/delete"})
     @RequestMapping("delete")
     public Map<String,Object> delete(UserVo ids) {
         Map<String,Object> map2=new HashMap<>();

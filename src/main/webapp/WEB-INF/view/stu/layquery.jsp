@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
     <title>Title</title>
@@ -25,17 +26,20 @@
             $=layui.jquery;
             var layer = layui.layer;
 
-           /* active = {
+            var active = {
                 "showRoleByUserId":function(userId){
+
                     //查询到全部的 role，显示出来
                     //获取到当前用户的 role_id 选中
                     //{'roles':list<Role> ,'roleIds':1,3}
                     $.get("/user/userRol",{'userId':userId},function (data) {
-                        $("#roleId").empty();
+                        console.log(data);
                         var roles = data.roles;
                         var roleIds = data.roleIds;
-                        console.log(data)
-                        //清除当前元素中的对象
+                        console.log(roles);
+                        console.log(roleIds);
+
+                        $("#roleIds").empty();//清除当前元素中的对象
 
                         for(var i = 0;i<roles.length;i++){
                             var che = '';
@@ -43,14 +47,13 @@
                             if(roleIds.indexOf(roles[i].roleId)>-1){//有重复的内容，则应该被选中
                                 che = 'checked';
                             }
-                            $("#roleId").append('<input type="checkbox" '+che+' name="roles['+i+']" value="'+roles[i].roleId+'" title="'+roles[i].roleName+'"><br>');
+                            $("#roleIds").append('<input type="checkbox" '+che+' name="roles['+i+']" value="'+roles[i].roleId+'" title="'+roles[i].roleName+'"><br>');
                         }
                         form.render(); //更新全部
                     },'json');
 
                 }
             }
-*/
             //第一个实例
             table.render({
                 elem: '#userTable'//对应table载体的id
@@ -92,10 +95,13 @@
                         layer.close(index);
                         //向服务端发送删除指令
                     });
-                }else if(layEvent=== 'edit'){
-                    var userId=data.userId;
+                }else if(layEvent === 'giveRole'){
+                    var userId = data.userId;
                     $("#userId").val(userId);
-                   /* active.showRoleByUserId(userId);*/
+
+                    //动态查询角色，加载数据，并选中
+                    active.showRoleByUserId(userId);
+
                     layer.open({
                         type: 1,
                         title:"赋角色",
@@ -131,8 +137,10 @@
 
     </script>
     <script type="text/html" id="userToolBar">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">赋角色</a>
+        <a class="layui-btn layui-btn-xs" lay-event="giveRole">赋角色</a>
+        <shiro:hasPermission name="/user/delete">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
     </script>
 
 </head>
@@ -143,10 +151,10 @@
         <input type="hidden" name="userId" id="userId"value="userId">
         <div class="layui-form-item">
             <label class="layui-form-label">角色：</label>
-            <div class="layui-input-block" id="roleId">
-                <input type="checkbox" name="roles[0]" value="1" title="admin"><br>
+            <div class="layui-input-block" id="roleIds">
+               <%-- <input type="checkbox" name="roles[0]" value="1" title="admin"><br>
                 <input type="checkbox" name="roles[1]" value="2"  title="youke"><br>
-                <input type="checkbox" name="roles[2]" value="3"  title="vip"><br>
+                <input type="checkbox" name="roles[2]" value="3"  title="vip"><br>--%>
             </div>
         </div>
         <div class="layui-form-item">

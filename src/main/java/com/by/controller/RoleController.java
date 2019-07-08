@@ -2,6 +2,7 @@ package com.by.controller;
 
 import com.by.model.*;
 import com.by.service.RoleService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,7 @@ public class RoleController {
         }
         return map;
     }
+    @RequiresPermissions({"/user/insert"})
     @ResponseBody
     @RequestMapping("add")
     public Map<String, Object> add(Role role) {
@@ -82,6 +84,7 @@ public class RoleController {
         }
         return map;
     }
+    @RequiresPermissions({"/user/delete"})
     @ResponseBody
     @RequestMapping("delete")
     public String delete(RoleVo arr) {
@@ -111,5 +114,12 @@ public class RoleController {
         }
 
 
+    }
+    @ResponseBody
+    @GetMapping("roleper")
+    public Map<String, Object> roleper(@RequestParam("roleId") Integer roleId){
+        Map<String, Object> map = new HashMap<>();
+        map=roleService.roleper(roleId);
+        return map;
     }
 }

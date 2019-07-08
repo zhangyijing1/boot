@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
     <title>Title</title>
@@ -130,10 +131,14 @@
 
     </script>
     <script type="text/html" id="userToolBar">
+        <shiro:hasPermission name="/permission/delete">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
     </script>
     <script type="text/html" id="tableToolBar">
+        <shiro:hasPermission name="/permission/insert">
         <a class="layui-btn layui-btn-xs" lay-event="add">增加</a>
+        </shiro:hasPermission>
     </script>
 </head>
 <body>

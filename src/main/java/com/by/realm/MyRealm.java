@@ -1,5 +1,6 @@
 package com.by.realm;
 
+import com.by.model.Permission;
 import com.by.model.User;
 import com.by.service.UserService;
 import org.apache.shiro.authc.*;
@@ -28,6 +29,8 @@ public class MyRealm extends AuthorizingRealm {
         String userName = (String) principals.getPrimaryPrincipal();
             Set<String> roles=userService.selectByrole(userName);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
+        Set<String> roles1=userService.selectBypermission(userName);
+        info.addStringPermissions(roles1);
         return info;
     }
 

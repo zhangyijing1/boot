@@ -29,4 +29,6 @@ public interface RoleService {
     void rolepermission(Rpvo rpvo);
 
     void delete2(Integer roleId);
+
+    Map<String, Object> roleper(Integer roleId);
 }

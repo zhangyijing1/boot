@@ -20,6 +20,8 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
 
     @Override
@@ -97,10 +99,26 @@ public class UserServiceImpl implements UserService {
         return roles;
     }
 
+
+
     @Override
-    public Set<String> userRol(Integer userId) {
-        Set<String> role=userMapper.selectByrol(userId);
-        return role;
+    public Set<String> selectBypermission(String userName) {
+        Set<String> roles1= userMapper.selectBypermission(userName);
+        return roles1;
+    }
+
+    @Override
+    public Map<String, Object> userRol(Integer userId) {
+        Map<String, Object> map = new HashMap<>();
+        //查询全部的 roles
+        List<Role> roles = roleMapper.findAll1();
+        //通过id查询role对象
+
+        List<Integer> roleIds = userMapper.findRoleIdsByUserId(userId);
+
+        map.put("roles",roles);
+        map.put("roleIds",roleIds);
+        return map;
     }
 
 

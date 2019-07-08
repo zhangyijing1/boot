@@ -46,15 +46,23 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;" >角色管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="abc" data_id="jslb" data_url="/role/list"
-                               data_title="角色列表 ">角色列表</a></dd>>
+                        <dd>
+                            <shiro:hasRole name="admin">
+                            <a href="javascript:;" class="abc" data_id="jslb" data_url="/role/list"
+                               data_title="角色列表 ">角色列表</a>
+                            </shiro:hasRole>
+                        </dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:">权限管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="abc" data_id="qxlb" data_url="/per/list"
-                               data_title="权限列表 ">权限列表</a></dd>>
+                        <dd>
+                            <shiro:hasRole name="admin">
+                            <a href="javascript:;" class="abc" data_id="qxlb" data_url="/per/list"
+                               data_title="权限列表 ">权限列表</a>
+                            </shiro:hasRole>
+                        </dd>
                     </dl>
                 </li>
             </ul>

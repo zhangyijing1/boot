@@ -55,7 +55,7 @@
     set permission_name = #{permissionName,jdbcType=VARCHAR}
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
-  <select id="query" resultType="permission">
+  <select id="query" resultType="com.by.model.Permission">
     select * from t_permission
   </select>
   <delete id="delete">
@@ -67,7 +67,10 @@
   <insert id="add">
     insert into t_permission (permission_id, permission_name) values (#{permissionId},#{permissionName})
   </insert>
-  <select id="query1" resultType="permission">
+  <select id="query1" resultType="com.by.model.Permission">
     select * from t_permission limit #{start},#{limit}
+  </select>
+  <select id="findAll1" resultType="com.by.model.Permission">
+    select * from t_permission
   </select>
 </mapper>

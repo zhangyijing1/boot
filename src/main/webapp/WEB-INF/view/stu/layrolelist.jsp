@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
     <title>Title</title>
@@ -25,31 +26,28 @@
             $=layui.jquery;
             var layer = layui.layer;
 
-          /*  active = {
-                "showRoleByUserId":function(userId){
-                    //查询到全部的 role，显示出来
-                    //获取到当前用户的 role_id 选中
-                    //{'roles':list<Role> ,'roleIds':1,3}
-                    $.get("/user/userRol",{'userId':userId},function (data) {
-                        $("#roleId").empty();
-                        var roles = data.roles;
-                        var roleIds = data.roleIds;
-                        console.log(data)
-                        //清除当前元素中的对象
+           active = {
+               "showRoleByroleId": function (roleId) {
 
-                        for(var i = 0;i<roles.length;i++){
-                            var che = '';
-                            //数组.indexOf(xxx)，判断数组中有没有xxx对象，如果没有是-1
-                            if(roleIds.indexOf(roles[i].roleId)>-1){//有重复的内容，则应该被选中
-                                che = 'checked';
-                            }
-                            $("#roleId").append('<input type="checkbox" '+che+' name="roles['+i+']" value="'+roles[i].roleId+'" title="'+roles[i].roleName+'"><br>');
-                        }
-                        form.render(); //更新全部
-                    },'json');
+                   $.get("/role/roleper", {'roleId': roleId}, function (data) {
+                       var permissions = data.permissions;
+                       var permissionIds = data.permissionIds;
+                       console.log(data);
+                       //清除当前元素中的对象
+                       $("#permissionIdss").empty()
+                       for (var i = 0; i < permissions.length; i++) {
+                           var che = '';
+                           //数组.indexOf(xxx)，判断数组中有没有xxx对象，如果没有是-1
+                           if (permissionIds.indexOf(permissions[i].permissionId) > -1) {//有重复的内容，则应该被选中
+                               che = 'checked';
+                           }
+                           $("#permissionIdss").append('<input type="checkbox" ' + che + ' name="permissions[' + i + ']" value="' + permissions[i].permissionId + '" title="' + permissions[i].permissionName + '"><br>');
+                       }
+                       form.render(); //更新全部
+                   }, 'json');
 
-                }
-            }*/
+               }
+           }
 
             //第一个实例
             table.render({
@@ -96,7 +94,7 @@
                 }else if(layEvent=== 'edit'){
                     var roleId=data.roleId;
                     $("#roleId").val(roleId);
-
+                    active.showRoleByroleId(roleId);
                     layer.open({
                         type: 1,
                         title:"赋权限",
@@ -168,11 +166,17 @@
 
     </script>
     <script type="text/html" id="userToolBar">
+        <shiro:hasPermission name="/role/update">
         <a class="layui-btn layui-btn-xs" lay-event="edit">赋权限</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="/role/delete">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
     </script>
     <script type="text/html" id="tableToolBar">
+        <shiro:hasPermission name="/role/insert">
         <a class="layui-btn layui-btn-xs" lay-event="add">增加</a>
+        </shiro:hasPermission>
     </script>
 </head>
 <body>
@@ -182,10 +186,9 @@
         <input type="hidden" name="roleId" id="roleId"value="roleId">
         <div class="layui-form-item">
             <label class="layui-form-label">权限：</label>
-            <div class="layui-input-block" id="permissionId">
-                <input type="checkbox" name="permissions[0]" value="1" title="增加"><br>
-                <input type="checkbox" name="permissions[1]" value="2"  title="删除"><br>
-                <input type="checkbox" name="permissions[2]" value="3"  title="修改"><br>
+            <div class="layui-input-block" id="permissionIdss">
+               <%-- <input type="checkbox" name="permissions[0]" value="1" title="增加"><br>
+                <input type="checkbox" name="permissions[1]" value="2"  title="删除"><br>--%>
             </div>
         </div>
         <div class="layui-form-item">

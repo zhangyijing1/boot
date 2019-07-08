@@ -178,16 +178,16 @@
       user_pswd = #{userPswd,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <select id="query" resultType="user">
+  <select id="query" resultType="com.by.model.User">
     select * from u_user where user_name=#{userName}
   </select>
-  <select id="query1" resultType="user">
+  <select id="query1" resultType="com.by.model.User">
     select * from u_user
   </select>
   <insert id="add">
     insert into u_user (user_name,user_pswd) values (#{userName},#{userPswd})
   </insert>
-  <insert id="insertUserRole" parameterType="urVo">
+  <insert id="insertUserRole" parameterType="com.by.model.UrVo">
     insert into t_ur (user_id,role_id) values
     <foreach collection="ur.roles" item="roleId" separator=",">
     <if test="roleId!=null">
@@ -219,4 +219,15 @@
     <collection property="roles" ofType="com.by.model.Role" autoMapping="true">
     </collection>
   </resultMap>
+  <select id="selectBypermission" resultType="string">
+         select p.permission_url from u_user u
+        LEFT JOIN t_ur ur on u.user_id=ur.user_id
+        LEFT JOIN r_role r on ur.role_id=r.role_id
+        LEFT JOIN t_rp e on r.role_id=e.role_id
+        LEFT JOIN t_permission p on e.permission_id=p.permission_id
+        where u.user_name=#{userName}
+  </select>
+    <select id="findRoleIdsByUserId" resultType="int">
+        select role_id from t_ur where user_id = #{userId}
+    </select>
 </mapper>

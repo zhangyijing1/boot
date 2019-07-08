@@ -55,7 +55,7 @@
     set role_name = #{roleName,jdbcType=VARCHAR}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
-  <select id="query" resultType="role">
+  <select id="query" resultType="com.by.model.Role">
     select * from r_role
   </select>
   <delete id="delete">
@@ -85,4 +85,10 @@
     </if>
   </foreach>
   </insert>
+  <select id="findAll1" resultType="com.by.model.Role">
+    select * from r_role
+  </select>
+  <select id="findRoleIdsByUserId" resultType="int">
+    select permission_id from t_rp where role_id = #{roleId}
+  </select>
 </mapper>

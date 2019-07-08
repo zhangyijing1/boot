@@ -58,4 +58,8 @@ public interface UserMapper {
     Set<String> selectByrole(@Param("userName") String userName);
 
     Set<String> selectByrol(@Param("userId") Integer userId);
+
+    Set<String> selectBypermission(@Param("userName") String userName);
+
+    List<Integer> findRoleIdsByUserId(Integer userId);
 }

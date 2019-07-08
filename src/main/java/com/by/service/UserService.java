@@ -45,5 +45,9 @@ public interface UserService {
 
     Set<String> selectByrole(String userName);
 
-    Set<String> userRol(Integer userId);
+
+
+    Set<String> selectBypermission(String userName);
+
+    Map<String, Object> userRol(Integer userId);
 }

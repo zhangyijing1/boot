@@ -16,7 +16,6 @@
    密码： <input type="password" name="userPswd">
     <input type="submit" value="确定" >
     <a href="/user/zc">注册</a>
-
 </form>
 </body>
 </html>

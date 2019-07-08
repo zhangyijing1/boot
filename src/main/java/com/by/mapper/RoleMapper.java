@@ -39,4 +39,8 @@ public interface RoleMapper {
     void insertrolepermission(@Param("rp") Rpvo rpvo);
     @Delete("delete from r_role where role_id=#{roleId}")
     void delete2(@Param("roleId") Integer roleId);
+
+    List<Role> findAll1();
+
+    List<Integer> findRoleIdsByUserId(@Param("roleId") Integer roleId);
 }

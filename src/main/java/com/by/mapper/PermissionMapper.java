@@ -31,4 +31,6 @@ public interface PermissionMapper {
     List<Permission> query1(Map<String, Object> pageMap);
     @Delete("delete from t_permission where permission_id=#{permissionId}")
     void del(@Param("permissionId") Integer permissionId);
+
+    List<Permission> findAll1();
 }
